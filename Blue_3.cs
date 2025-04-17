@@ -9,33 +9,18 @@ namespace Lab_7
             private string _name;
             private string _lastname;
             protected int[] _minutes;
-            private bool _isExpelled;
 
             public string Name => _name;
             public string Surname => _lastname;
+            public int[] Penalties => _minutes?.Clone() as int[];
 
             public Participant(string name, string lastname)
             {
                 this._name = name;
                 this._lastname = lastname;
                 this._minutes = new int[] { };
-                this._isExpelled = true;
             }
 
-            public int[] Penalties
-            {
-                get
-                {
-                    if (this._minutes == null) return null;
-                    int[] arr = new int[this._minutes.Length];
-                    for (int i = 0; i < this._minutes.Length; i++)
-                    {
-                        arr[i] = this._minutes[i];
-                    }
-
-                    return arr;
-                }
-            }
 
             public int Total
             {
@@ -56,25 +41,21 @@ namespace Lab_7
             {
                 get
                 {
-                    if (this._minutes == null || this._minutes.Length == 0) return false;
-
-                    return this._isExpelled;
+                    if (this._minutes == null) return false;
+                    foreach (int item in this._minutes)
+                    {
+                        if (item == 10) return true;
+                    }
+                    return false;
                 }
             }
 
             public virtual void PlayMatch(int time)
             {
-                if (this._minutes == null) return;
-                if (time == 10) this._isExpelled = false;
+                if (time < 0) return;
 
-                int[] arr = new int[this._minutes.Length + 1];
-                for (int i = 0; i < this._minutes.Length; i++)
-                {
-                    arr[i] = this._minutes[i];
-                }
-
-                this._minutes = arr;
-                arr[this._minutes.Length - 1] = time;
+                Array.Resize(ref this._minutes, this._minutes.Length + 1);
+                this._minutes[this._minutes.Length - 1] = time;
             }
 
             public static void Sort(Participant[] arr)
@@ -153,7 +134,8 @@ namespace Lab_7
                         countMinutes += player.Total;
                     }
 
-                    return this.Total > 0.1 * ((double)countMinutes / _players.Length);
+                    double average = (double) countMinutes / _players.Length;
+                    return Total > 0.1 * average;
                 }
             }
         }

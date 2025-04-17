@@ -9,7 +9,6 @@ namespace Lab_7
             private string _name;
             private string _lastname;
             private int _place;
-            private bool isTrue;
 
             public string Name => _name;
             public string Surname => _lastname;
@@ -20,16 +19,13 @@ namespace Lab_7
                 this._name = name;
                 this._lastname = lastname;
                 this._place = 0;
-                this.isTrue = true;
             }
 
             public void SetPlace(int place)
             {
-                if (isTrue)
-                {
-                    this._place = place;
-                    this.isTrue = false;
-                }
+                if (this._place != 0) return;
+                
+                this._place = place;
             }
 
             public void Print()

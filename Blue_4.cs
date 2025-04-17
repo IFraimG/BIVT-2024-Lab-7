@@ -11,22 +11,7 @@ namespace Lab_7
 
             public string Name => _name;
 
-            public int[] Scores
-            {
-                get
-                {
-                    if (this._counts == null) return null;
-                    int[] arr = new int[this._counts.Length];
-
-                    for (int i = 0; i < this._counts.Length; i++)
-                    {
-                        arr[i] = this._counts[i];
-                    }
-
-                    return arr;
-                }
-            }
-
+            public int[] Scores => this._counts?.Clone() as int[];
             public int TotalScore
             {
                 get
@@ -51,7 +36,6 @@ namespace Lab_7
 
             public void PlayMatch(int result)
             {
-                if (this._counts == null) return;
                 Array.Resize(ref this._counts, this._counts.Length + 1);
                 this._counts[this._counts.Length - 1] = result;
             }
@@ -135,7 +119,7 @@ namespace Lab_7
                 {
                     for (int j = 0; j < count - i - 1; j++)
                     {
-                        if (teams[j + 1].TotalScore > teams[j].TotalScore)
+                        if (teams[j + 1]?.TotalScore > teams[j]?.TotalScore)
                         {
                             Team temp = teams[j + 1];
                             teams[j + 1] = teams[j];
@@ -147,7 +131,6 @@ namespace Lab_7
 
             public static Group Merge(Group group1, Group group2, int size)
             {
-                if (size <= 0) return new Group("");
                 Group group = new Group("Финалисты");
 
                 MergeTeamList(group1.ManTeams, group2.ManTeams, group._manTeams, ref group._manCount, size / 2);
@@ -160,35 +143,28 @@ namespace Lab_7
             {
                 int foo1 = 0;
                 int foo2 = 0;
+                count = 0;
 
-                while (foo1 < size / 2 && foo2 < size / 2)
+                while (foo1 < size && foo2 < size)
                 {
-                    if (team1[foo1].TotalScore >= team2[foo2].TotalScore)
+                    if (team1[foo1]?.TotalScore >= team2[foo2]?.TotalScore)
                     {
-                        group[count] = team1[foo1];
-                        foo1++;
-                        count++;
+                        group[count++] = team1[foo1++];
                     }
                     else
                     {
-                        group[count] = team2[foo2];
-                        foo2++;
-                        count++;
+                        group[count++] = team2[foo2++];
                     }
                 }
 
-                while (foo1 < size / 2)
+                while (foo1 < size && count < group.Length)
                 {
-                    group[count] = team1[foo1];
-                    foo1++;
-                    count++;
+                    group[count++] = team1[foo1++];
                 }
 
-                while (foo2 < size / 2)
+                while (foo2 < size && count < group.Length)
                 {
-                    group[count] = team2[foo2];
-                    foo2++;
-                    count++;
+                    group[count++] = team2[foo2++];
                 }
             }
 

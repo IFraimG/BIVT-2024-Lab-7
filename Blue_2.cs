@@ -14,26 +14,7 @@ namespace Lab_7
             public readonly string Name => _name;
             public readonly string Surname => _lastname;
 
-            public readonly int[,] Marks
-            {
-                get
-                {
-                    if (this._marks == null) return null;
-
-                    int[,] arr = new int[this._marks.GetLength(0), this._marks.GetLength(1)];
-
-                    for (int i = 0; i < this._marks.GetLength(0); i++)
-                    {
-                        for (int j = 0; j < this._marks.GetLength(1); j++)
-                        {
-                            arr[i, j] = this._marks[i, j];
-                        }
-                    }
-
-                    return arr;
-
-                }
-            }
+            public readonly int[,] Marks => _marks?.Clone() as int[,];
 
             public Participant(string name, string lastname)
             {
@@ -102,14 +83,11 @@ namespace Lab_7
 
         public abstract class WaterJump
         {
-            private string _name;
-            private int _bank;
             private int _count;
             private Participant[] _parts;
 
-            public string Name => _name;
-            public int Bank => _bank;
-            public int Count => _count;
+            public string Name { get; }
+            public int Bank { get; }
 
             public Participant[] Participants
             {
@@ -125,8 +103,8 @@ namespace Lab_7
 
             public WaterJump(string name, int bank)
             {
-                this._name = name;
-                this._bank = bank;
+                this.Name = name;
+                this.Bank = bank;
                 this._parts = new Participant[] { };
                 this._count = 0;
             }
@@ -145,7 +123,7 @@ namespace Lab_7
 
                 foreach (var participant in participants)
                 {
-                    this.Add(participant);
+                    Add(participant);
                 }
             }
         }
