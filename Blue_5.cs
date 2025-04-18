@@ -9,7 +9,8 @@ namespace Lab_7
             private string _name;
             private string _lastname;
             private int _place;
-
+            private bool _isTrue;
+            
             public string Name => _name;
             public string Surname => _lastname;
             public int Place => _place;
@@ -19,13 +20,16 @@ namespace Lab_7
                 this._name = name;
                 this._lastname = lastname;
                 this._place = 0;
+                this._isTrue = true;
             }
 
             public void SetPlace(int place)
             {
-                if (this._place != 0) return;
-                
-                this._place = place;
+                if (this._isTrue)
+                {
+                    this._place = place;
+                    this._isTrue = false;
+                }
             }
 
             public void Print()
@@ -52,6 +56,7 @@ namespace Lab_7
 
                     foreach (var foo in this._sportsmen)
                     {
+                        if (foo == null) continue;
                         switch (foo.Place)
                         {
                             case 1:
@@ -89,7 +94,7 @@ namespace Lab_7
 
                     for (int i = 0; i < this._count; i++)
                     {
-                        if (this._sportsmen[i].Place < foo) foo = this._sportsmen[i].Place;
+                        if (this._sportsmen[i] != null && this._sportsmen[i].Place > 0 && this._sportsmen[i].Place < foo) foo = this._sportsmen[i].Place;
                     }
 
                     return foo;
@@ -105,12 +110,9 @@ namespace Lab_7
 
             public void Add(Sportsman sportsman)
             {
-                if (this._sportsmen == null) return;
-                if (this._count < 6)
-                {
-                    this._sportsmen[this._count] = sportsman;
-                    this._count++;
-                }
+                if (this._sportsmen == null || this._count == 6 || sportsman == null || this._sportsmen.Length == 0) return;
+                this._sportsmen[this._count] = sportsman; 
+                this._count++;
             }
 
             public void Add(Sportsman[] sportsmen)
@@ -126,7 +128,7 @@ namespace Lab_7
 
             public static void Sort(Team[] teams)
             {
-                if (teams == null) return;
+                if (teams == null || teams.Length == 0) return;
                 for (int i = 0; i < teams.Length - 1; i++)
                 {
                     for (int j = 0; j < teams.Length - i - 1; j++)

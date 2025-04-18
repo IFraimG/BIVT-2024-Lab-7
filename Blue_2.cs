@@ -144,7 +144,7 @@ namespace Lab_7
             }
         }
 
-        public class WaterJump5m : WaterJump
+        public class WaterJump5m: WaterJump
         {
             public WaterJump5m(string name, int bank) : base(name, bank)
             {
@@ -156,18 +156,18 @@ namespace Lab_7
                 {
                     if (this.Participants == null || this.Participants.Length < 3) return null;
                     int countLimit = Participants.Length / 2;
-                    if (countLimit < 3) return null;
                     if (countLimit > 10) countLimit = 10;
+                    else if (countLimit < 3) return null;
 
                     double[] prizeList = new double[countLimit];
-                    double result = (0.2 * Bank) / countLimit;
+                    double result = (0.2 * (double) Bank) / countLimit;
 
-                    for (int i = 0; i < countLimit; i++)
+                    prizeList[0] = 0.4 * (double) Bank + result;
+                    prizeList[1] = 0.25 * (double) Bank + result;
+                    prizeList[2] = 0.15 * (double) Bank + result;
+                    for (int i = 3; i < countLimit; i++)
                     {
-                        if (i == 0) prizeList[0] = 0.4 * Bank + result;
-                        if (i == 1) prizeList[1] = 0.25 * Bank + result;
-                        if (i == 2) prizeList[2] = 0.15 * Bank + result;
-                        else prizeList[i] = result;
+                        prizeList[i] += result;
                     }
 
                     return prizeList;
